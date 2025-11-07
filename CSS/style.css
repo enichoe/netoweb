@@ -20,12 +20,6 @@
     }
   
 
-    /* .hero {
-      height: 80vh;
-      background: radial-gradient(circle at 50% 50%, var(--tech-grey), var(--dark-space));
-      display: flex;
-      align-items: center;
-    } */
 
     .hero {
   height: 80vh;
@@ -35,7 +29,7 @@
   /* Fondo combinado */
   background-image: 
     linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), /* degradado negro */
-    url('/img/3.webp'); /* tu imagen */
+    url('/IMG/3.webp'); /* tu imagen */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

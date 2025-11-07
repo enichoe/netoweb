@@ -1,0 +1,83 @@
+:root {
+    --background-color: #404040;
+    --text-color: #1CB698;
+    --hover-color: #007bff;
+  }
+  
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+    font-family: Arial, sans-serif;
+  }
+  
+  @keyframes lightningAnimation {
+    0% { opacity: 0.1; } /* Reducir opacidad */
+    50% { opacity: 0.3; } /* Reducir opacidad */
+    100% { opacity: 0.1; } /* Reducir opacidad */
+  }
+  
+  .lightning {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('/IMG/fondo1.webp') repeat;
+    background-size: cover;
+    animation: lightningAnimation 2s infinite;
+  }
+  
+  .loading-container {
+    text-align: center;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .logo img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  .title {
+    font-size: 32px;
+    color: white;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  .loading-text {
+    font-size: 24px;
+    color: white;
+    animation: blink 1s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  .footer .redes a {
+    margin: 0 10px;
+    font-size: 30px;
+    color: white;
+  }
+  
+  .footer .redes a:hover {
+    color: var(--hover-color);
+  }
+  

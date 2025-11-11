@@ -65,8 +65,11 @@
     }
 
     .profile-img {
-      max-width: 80%;
+      max-width: 50%;
       height: auto;
+      border-radius: 10px !important;
+      display: block;
+      margin: auto;
     }
 
     .neon-text {

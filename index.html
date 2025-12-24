@@ -4,7 +4,11 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💻 ERNESTO NICHO ESPINOZA</title>
+  <title>ERNESTO NICHO | Desarrollador Web</title>
+  
+  <!-- OPTIMIZACIÓN: Pre-carga de la página principal -->
+  <link rel="prefetch" href="principal.html">
+  
   <link rel="stylesheet" href="/CSS/loading.css">
   <link
     rel="stylesheet"
@@ -13,64 +17,90 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
+
   <!-- Meta Description -->
-<meta name="description" content="Hola bienvenid@ a mi Portafolio Profesional, soy Ernesto Nicho Espinoza - Desarrollador Web">
+  <meta name="description" content="Portafolio de Ernesto Nicho Espinoza - Desarrollador Web Profesional.">
+  <link rel="canonical" href="https://neto-webs.netlify.app/">
+  <link rel="apple-touch-icon" href="https://neto-webs.netlify.app/img/logoA.jpeg">
+  <meta name="theme-color" content="#000000">
 
-<!-- Canonical Link -->
-<link rel="canonical" href="https://neto-webs.netlify.app/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ERNESTO NICHO ESPINOZA">
+  <meta property="og:description" content="Desarrollador Web especializado en diseño y desarrollo web moderno.">
+  <meta property="og:image" content="https://neto-webs.netlify.app/img/logoB.jpeg">
+  <meta property="og:url" content="https://neto-webs.netlify.app/">
 
-<!-- Favicon -->
-
-<link rel="apple-touch-icon" href="https://neto-webs.netlify.app/img/logoA.jpeg">
-
-<!-- Theme Color -->
-<meta name="theme-color" content="#000000">
-
-<!-- Meta Tags for X (Twitter) -->
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ERNESTO NICHO ESPINOZA 💻">
-<meta name="twitter:description" content="Hola bienvenid@ a mi Portafolio Profesional, soy Ernesto Nicho Espinoza - Desarrollador Web">
-<meta name="twitter:image" content="https://neto-webs.netlify.app/img/logoB.jpeg">
-<meta name="twitter:url" content="https://neto-webs.netlify.app/">
-
-<!-- Meta Tags for Open Graph (Facebook, LinkedIn, etc.) -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="ERNESTO NICHO ESPINOZA 💻">
-<meta property="og:description" content="Hola bienvenid@ a mi Portafolio Profesional, soy Ernesto Nicho Espinoza - Desarrollador Web">
-<meta property="og:image" content="https://neto-webs.netlify.app/img/logoB.jpeg">
-<meta property="og:url" content="https://neto-webs.netlify.app/">
-
-
-
-
+  <style>
+    /* Estilos críticos en línea para evitar parpadeo (FOUC) si el CSS externo falla */
+    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; color: #fff; font-family: sans-serif; }
+    .loading-container { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; width: 100%; text-align: center; }
+    .loading-text { font-size: 1.2rem; letter-spacing: 2px; animation: pulse 1.5s infinite; }
+    .skip-btn { margin-top: 20px; padding: 10px 20px; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: #fff; cursor: pointer; border-radius: 20px; font-size: 0.8rem; opacity: 0.7; transition: 0.3s; }
+    .skip-btn:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+    
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+  </style>
 </head>
 <body>
+  <!-- Efecto visual Lightning -->
   <div class="lightning"></div>
-  <div class="loading-container">
+
+  <div class="loading-container" role="main" aria-label="Cargando portafolio">
     <div class="logo">
-      <img src="IMG/logoA.webp" alt="Logo">
+      <!-- Asegúrate de que la ruta de la imagen sea correcta -->
+      <img src="/IMG/logoA.webp" alt="Logo Neto Webs" width="150">
       <h2 class="title">Neto Web</h2>
     </div>
-    <h2 class="loading-text">Loading...</h2>
-    <div class="footer">
+
+    <h2 class="loading-text">Cargando experiencia...</h2>
+    
+    <!-- BOTÓN DE SALTAR (Mejora UX clave) -->
+    <button onclick="enterSite()" class="skip-btn" aria-label="Saltar animación de carga">
+      Entrar al Sitio <i class="fas fa-arrow-right"></i>
+    </button>
+
+    <div class="footer" style="margin-top: 40px;">
       <div class="redes">
-        <a href="https://www.facebook.com/profile.php?id=61556928082465&locale=es_LA" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://x.com/WebErnesto" target="_blank"><i class="fa-brands fa-twitter"></i></a>
-        <a href="https://github.com/enichoe" target="_blank"><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/ernesto-nicho-espinoza-959583141?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="mailto:programador.web.ernesto@gmail.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
-        <a href="https://youtube.com/@ernestosalsa19?si=IWNpCkqEdgpO9QqT" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61556928082465&locale=es_LA" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://x.com/WebErnesto" target="_blank" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        <a href="https://github.com/enichoe" target="_blank" aria-label="Github"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/ernesto-nicho-espinoza-959583141/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="mailto:programador.web.ernesto@gmail.com" aria-label="Enviar Correo"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://youtube.com/@ernestosalsa19" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
       </div>
     </div>
   </div>
+
   <script>
-    setTimeout(function() {
-      document.querySelector('.loading-container').style.opacity = 0;
+    // Función para entrar al sitio (reutilizable por el botón y el timer)
+    function enterSite() {
+      // Animación de salida suave
+      document.querySelector('.loading-container').style.transition = 'opacity 0.5s ease';
+      document.querySelector('.loading-container').style.opacity = '0';
+      
       setTimeout(function() {
-        window.location.href = 'principal.html';
-      }, 1000);
-    }, 6000);
+        // window.location.replace es mejor que href porque evita que el botón "atrás" regrese a la pantalla de carga
+        window.location.replace('principal.html');
+      }, 500);
+    }
+
+    // Click en cualquier parte del cuerpo para saltar la animación (UX pro)
+    document.body.addEventListener('click', function(e) {
+      // Evitamos que los clics en los iconos de redes sociales activen esto inmediatamente
+      if (!e.target.closest('.redes a') && !e.target.closest('.skip-btn')) {
+        enterSite();
+      }
+    });
+
+    // Timer automático reducido de 6s a 2.5s (Tiempo óptimo de marketing)
+    setTimeout(function() {
+      enterSite();
+    }, 2500);
   </script>
 </body>
 </html>
-

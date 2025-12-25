@@ -303,26 +303,34 @@
     </div>
   </footer>
 
-  <!-- Botón Flotante Chatbot -->
-  <div id="botToggle" onclick="toggleBot()" class="bot-button">
-    <img src="https://img.icons8.com/ios-filled/48/ffffff/bot.png" alt="Chatbot">
+  <div class="chat-widget-container">
+  <!-- Botón Flotante -->
+  <div class="chat-launcher" onclick="toggleChat()">
+    <!-- Icono Droid SVG -->
+    <svg viewBox="0 0 24 24">
+      <path d="M12,2A2,2 0 0,1 14,4V5.5H19A3,3 0 0,1 22,8.5V16.5A3,3 0 0,1 19,19.5H5A3,3 0 0,1 2,16.5V8.5A3,3 0 0,1 5,5.5H10V4A2,2 0 0,1 12,2M7.5,12A1.5,1.5 0 0,0 6,13.5A1.5,1.5 0 0,0 7.5,15A1.5,1.5 0 0,0 9,13.5A1.5,1.5 0 0,0 7.5,12M16.5,12A1.5,1.5 0 0,0 15,13.5A1.5,1.5 0 0,0 16.5,15A1.5,1.5 0 0,0 18,13.5A1.5,1.5 0 0,0 16.5,12Z"/>
+    </svg>
   </div>
 
-  <!-- Panel Chatbot -->
-  <div id="chatBot" class="wa-bot-panel">
-    <div class="welcome-message">
-      <span>👋 ¡Hola! Soy el Asistente de NetoWebs</span>
-      <p>¿En qué puedo ayudarte hoy?</p>
+  <!-- Ventana del Chat -->
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div>
+        <h4>Asistente NetoWebs</h4>
+        <span>● En línea ahora</span>
+      </div>
+      <button class="close-btn" onclick="toggleChat()">✕</button>
     </div>
-    <div class="bot-buttons">
-      <button onclick="sendToWhatsApp('Hola, quiero saber los precios de una página web.')" class="bot-btn">💰 Precios</button>
-      <button onclick="sendToWhatsApp('Hola, ¿qué servicios ofrecen?')" class="bot-btn">📄 Servicios</button>
-      <button onclick="sendToWhatsApp('Hola, quiero una cotización personalizada.')" class="bot-btn">📝 Cotización</button>
-      <a href="https://wa.me/51932721373" target="_blank" class="bot-btn direct-btn">🚀 Ir a WhatsApp</a>
-    </div>
-    <button onclick="toggleBot()" class="bot-btn close-btn">❌ Cerrar</button>
-  </div>
 
+    <div class="chat-body" id="chatBody">
+      <!-- Los mensajes se generarán aquí con JS -->
+    </div>
+
+    <div class="chat-controls" id="chatControls">
+      <!-- Botones de opción aparecerán aquí -->
+    </div>
+  </div>
+</div>
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/JS/script.js"></script>

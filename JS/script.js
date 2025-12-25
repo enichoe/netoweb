@@ -64,23 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- 4. LÓGICA DEL CHATBOT ---
-  const phoneNumber = '51932721373';
-
-  window.toggleBot = function() {
-    const bot = document.getElementById('chatBot');
-    if (bot) {
-      const isVisible = bot.style.display === 'block';
-      bot.style.display = isVisible ? 'none' : 'block';
-    }
-  };
-
-  window.sendToWhatsApp = function(message) {
-    if (!message) return;
-    
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-  };
+ 
 
   // --- EXTRA: ANIMACIÓN AL SCROLL (Fade In) ---
   // Si quisieras añadir elementos que aparecen al hacer scroll, aquí iría
@@ -88,3 +72,182 @@ document.addEventListener('DOMContentLoaded', () => {
 });
   
   
+
+
+
+
+
+
+
+
+
+
+  // --- CONFIGURACIÓN ---
+  const WHATSAPP_NUMBER = '51932721373'; // TU NÚMERO
+  
+  // --- ESTADO DEL BOT ---
+  let currentStep = 0;
+  const userData = {
+    service: '',
+    budget: '',
+    name: ''
+  };
+
+  const chatWindow = document.getElementById('chatWindow');
+  const chatBody = document.getElementById('chatBody');
+  const chatControls = document.getElementById('chatControls');
+
+  // --- FUNCIONES PRINCIPALES ---
+
+  function toggleChat() {
+    chatWindow.classList.toggle('active');
+    // Si es la primera vez que se abre y no hay mensajes, iniciar
+    if (chatWindow.classList.contains('active') && chatBody.children.length === 0) {
+      startBot();
+    }
+  }
+
+  function startBot() {
+    addBotMessage("¡Hola! 👋 Bienvenido a NetoWebs. Soy tu asistente virtual.");
+    setTimeout(() => {
+      addBotMessage("¿Qué tipo de solución estás buscando hoy?");
+      showOptions([
+        { label: "🌐 Página Web", value: "Sitio Web" },
+        { label: "🛒 Tienda Online", value: "E-commerce" },
+        { label: "📱 App Móvil", value: "App Móvil" },
+        { label: "🛠️ Mantenimiento", value: "Mantenimiento" }
+      ], 1);
+    }, 800);
+  }
+
+  // Agregar mensaje del bot
+  function addBotMessage(text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message bot';
+    msgDiv.innerHTML = text;
+    chatBody.appendChild(msgDiv);
+    scrollToBottom();
+  }
+
+  // Agregar mensaje del usuario
+  function addUserMessage(text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message user';
+    msgDiv.innerText = text;
+    chatBody.appendChild(msgDiv);
+    scrollToBottom();
+  }
+
+  // Simular que el bot escribe
+  function showTypingIndicator(callback) {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot typing-indicator';
+    typingDiv.id = 'typingIndicator';
+    typingDiv.innerHTML = '<span></span><span></span><span></span>';
+    chatBody.appendChild(typingDiv);
+    scrollToBottom();
+
+    setTimeout(() => {
+      document.getElementById('typingIndicator').remove();
+      callback();
+    }, 1200); // Espera 1.2 segundos simulando pensamiento
+  }
+
+  // Mostrar botones de opción
+  function showOptions(options, nextStep) {
+    chatControls.innerHTML = '';
+    const grid = document.createElement('div');
+    grid.className = 'option-grid';
+
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = opt.label;
+      btn.onclick = () => handleOptionClick(opt.value, nextStep);
+      grid.appendChild(btn);
+    });
+    chatControls.appendChild(grid);
+  }
+
+  // Mostrar input de texto
+  function showTextInput(placeholder, nextStep) {
+    chatControls.innerHTML = '';
+    const input = document.createElement('input');
+    input.className = 'text-input';
+    input.placeholder = placeholder;
+    
+    input.onkeypress = (e) => {
+      if (e.key === 'Enter' && input.value.trim() !== '') {
+        handleOptionClick(input.value.trim(), nextStep);
+      }
+    };
+    chatControls.appendChild(input);
+    setTimeout(() => input.focus(), 100);
+  }
+
+  // Manejar la lógica del flujo (Cerebro del Bot)
+  function handleOptionClick(value, nextStep) {
+    chatControls.innerHTML = ''; // Limpiar botones temporalmente
+    addUserMessage(value);
+    
+    showTypingIndicator(() => {
+      processStep(value, nextStep);
+    });
+  }
+
+  // Lógica de Negocio / Ventas
+  function processStep(value, step) {
+    switch(step) {
+      case 1: // Servicio seleccionado
+        userData.service = value;
+        addBotMessage(`¡Excelente elección! ${value} es nuestro fuerte.`);
+        setTimeout(() => {
+          addBotMessage("¿Cuál es tu presupuesto aproximado?");
+          showOptions([
+            { label: "$100 - $500", value: "$100-$500" },
+            { label: "$500 - $1000", value: "$500-$1000" },
+            { label: "$1000 - $2000", value: "$1000-$2000" },
+            { label: "Más de $2000", value: "+$2000" }
+          ], 2);
+        }, 800);
+        break;
+
+      case 2: // Presupuesto seleccionado
+        userData.budget = value;
+        addBotMessage("Entendido. Tengo la información necesaria.");
+        setTimeout(() => {
+          addBotMessage("Por último, ¿cuál es tu nombre para poder atenderte?");
+          showTextInput("Escribe tu nombre aquí...", 3);
+        }, 800);
+        break;
+
+      case 3: // Nombre ingresado -> Cierre
+        userData.name = value;
+        addBotMessage(`¡Gracias ${value}!`);
+        setTimeout(() => {
+          addBotMessage("Estoy generando tu enlace de atención personalizada...");
+          setTimeout(() => {
+            redirectToWhatsApp();
+          }, 1500);
+        }, 500);
+        break;
+    }
+  }
+
+  // Redirigir a WhatsApp con todo el resumen
+  function redirectToWhatsApp() {
+    const text = `Hola NetoWebs, soy *${userData.name}*.%0A%0A` +
+                  `Estoy interesado en: *${userData.service}*.%0A` +
+                  `Mi presupuesto es: *${userData.budget}*.%0A%0A` +
+                  `¿Podrían darme más detalles?`;
+    
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+    
+    // Abrir ventana y cerrar chat
+    window.open(url, '_blank');
+    toggleChat();
+  }
+
+  function scrollToBottom() {
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }

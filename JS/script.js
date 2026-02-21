@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
  // --- CONFIGURACIÓN ---
-const WHATSAPP_NUMBER = '51932721373'; // TU NÚMERO
+const WHATSAPP_NUMBER = '51972498691'; // TU NÚMERO
 
 // --- ESTADO DEL BOT ---
 let currentStep = 0;

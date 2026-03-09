@@ -310,27 +310,54 @@ function showFinalButton() {
   chatControls.appendChild(btn);
 }
 
-// 7. POSTVENTA (Redirección con datos estructurados)
+// 7. POSTVENTA (Redirección con datos estructurados mejorados)
 function redirectToWhatsApp() {
-  // Mensaje diseñado para que el vendedor real responda rápido
-  const urgencyTag = userData.stage.includes("Urgente") ? "🚨 URGENTE:" : "📋 Nuevo Lead:";
-  
-  const text = `${urgencyTag} Hola NetoWebs, soy *${userData.name}*.%0A` +
-                `Vi la promoción del mes y me interesa: *${userData.service}*.%0A` +
-                `Mi situación es: *${userData.stage}*.%0A` +
-                `Quiero saber el precio y disponibilidad.`;
-  
+
+  const urgencyTag = userData.stage.includes("Urgente") 
+      ? "🚨 *LEAD URGENTE*" 
+      : "📩 *NUEVO CLIENTE INTERESADO*";
+
+  const text = `${urgencyTag}%0A%0A` +
+
+  `👤 *Nombre:* ${userData.name}%0A` +
+  `💼 *Servicio de interés:* ${userData.service}%0A` +
+  `📊 *Situación actual:* ${userData.stage}%0A%0A` +
+
+  `🔥 *Mensaje:*%0A` +
+  `Hola NetoWebs, vi su promoción y estoy interesado en este servicio.%0A%0A` +
+
+  `💰 Quisiera conocer:%0A` +
+  `• Precio del servicio%0A` +
+  `• Tiempo de entrega%0A` +
+  `• Cómo iniciar el proyecto%0A%0A` +
+
+  `⚡ Espero su respuesta para avanzar con el proyecto.`;
+
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
-  
+
   window.open(url, '_blank');
-  
-  // Mensaje Post-venta dentro del chat
-  chatControls.innerHTML = '<p style="text-align:center; font-size:12px; color:#888;">Redirigiendo a WhatsApp...</p>';
+
+  // Mensaje visual dentro del chatbot
+  chatControls.innerHTML = `
+    <div style="
+        text-align:center;
+        padding:10px;
+        font-size:13px;
+        color:#666;
+        background:#f5f5f5;
+        border-radius:10px;
+        margin-top:10px;
+    ">
+        ⏳ Conectándote con un asesor...<br>
+        📲 Abriendo WhatsApp
+    </div>
+  `;
+
   setTimeout(() => {
       if(chatWindow.classList.contains('active')) {
-          addBotMessage("¡Listo! Te esperamos en WhatsApp para enviarte los detalles. 🚀");
+          addBotMessage("✅ *¡Listo!* Te estamos conectando con un asesor en WhatsApp para enviarte los detalles. 🚀");
       }
-  }, 500);
+  }, 700);
 }
 
 function scrollToBottom() {

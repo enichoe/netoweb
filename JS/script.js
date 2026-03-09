@@ -82,14 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
- // --- CONFIGURACIÓN ---
+// --- CONFIGURACIÓN ---
 const WHATSAPP_NUMBER = '51972498691'; // TU NÚMERO
 
 // --- ESTADO DEL BOT ---
 let currentStep = 0;
 const userData = {
   service: '',
-  stage: '', // Cambiado de 'budget' a 'stage'
+  stage: '', 
   name: ''
 };
 
@@ -97,34 +97,58 @@ const chatWindow = document.getElementById('chatWindow');
 const chatBody = document.getElementById('chatBody');
 const chatControls = document.getElementById('chatControls');
 
+// --- BASE DE DATOS DE VENTAS (Beneficios y Prueba Social) ---
+const salesKnowledge = {
+  "Sitio Web": {
+    benefit: "Tendrás una carta de presentación profesional que vende por ti las 24 horas.",
+    tip: "Incluye diseño optimizado para celulares."
+  },
+  "E-commerce": {
+    benefit: "Podrás vender automáticamente y recibir pagos sin estar presente.",
+    tip: "Ideal para escalar tu negocio."
+  },
+  "App Móvil": {
+    benefit: "Llegarás directamente a la pantalla de tus clientes, aumentando la fidelidad.",
+    tip: "Disponible para iOS y Android."
+  },
+  "Mantenimiento": {
+    benefit: "Olvídate de fallos técnicos, nosotros nos encargamos de que todo funcione perfecto.",
+    tip: "Soporte prioritario incluido."
+  }
+};
+
 // --- FUNCIONES PRINCIPALES ---
 
 function toggleChat() {
   chatWindow.classList.toggle('active');
-  // Si es la primera vez que se abre y no hay mensajes, iniciar
+  // Si es la primera vez que se abre, iniciar con gancho
   if (chatWindow.classList.contains('active') && chatBody.children.length === 0) {
     startBot();
   }
 }
 
 function startBot() {
-  addBotMessage("¡Hola! 👋 Bienvenido a NetoWebs. Soy tu asistente virtual.");
+  // 1. SALUDO INTELIGENTE (Hook + Propuesta de valor)
+  addBotMessage("¡Hola! 👋 Soy el asesor digital de NetoWebs.");
   setTimeout(() => {
-    addBotMessage("¿Qué tipo de solución estás buscando hoy?");
+    // Técnica de Curiosidad + Urgencia sutil
+    addBotMessage("Tenemos <strong>cupos limitados</strong> esta semana para nuevos proyectos. ¿En qué te puedo ayudar?");
+    
+    // 2. IDENTIFICAR NECESIDAD (Opciones claras)
     showOptions([
       { label: "🌐 Página Web", value: "Sitio Web" },
-      { label: "🛒 Tienda Online", value: "E-commerce" },
+      { label: "🛒 Tienda Online (E-commerce)", value: "E-commerce" },
       { label: "📱 App Móvil", value: "App Móvil" },
-      { label: "🛠️ Mantenimiento", value: "Mantenimiento" }
+      { label: "🛠️ Soporte y Mantenimiento", value: "Mantenimiento" }
     ], 1);
   }, 800);
 }
 
-// Agregar mensaje del bot
+// Agregar mensaje del bot (Sin cambios en lógica, pero ahora acepta HTML)
 function addBotMessage(text) {
   const msgDiv = document.createElement('div');
   msgDiv.className = 'message bot';
-  msgDiv.innerHTML = text;
+  msgDiv.innerHTML = text; // InnerHTML permite negritas y formato
   chatBody.appendChild(msgDiv);
   scrollToBottom();
 }
@@ -138,7 +162,7 @@ function addUserMessage(text) {
   scrollToBottom();
 }
 
-// Simular que el bot escribe
+// Simular que el bot escribe (Reducido a 1s para fluidez)
 function showTypingIndicator(callback) {
   const typingDiv = document.createElement('div');
   typingDiv.className = 'message bot typing-indicator';
@@ -148,9 +172,10 @@ function showTypingIndicator(callback) {
   scrollToBottom();
 
   setTimeout(() => {
-    document.getElementById('typingIndicator').remove();
+    const indicator = document.getElementById('typingIndicator');
+    if(indicator) indicator.remove();
     callback();
-  }, 1200); // Espera 1.2 segundos simulando pensamiento
+  }, 1000); 
 }
 
 // Mostrar botones de opción
@@ -185,9 +210,9 @@ function showTextInput(placeholder, nextStep) {
   setTimeout(() => input.focus(), 100);
 }
 
-// Manejar la lógica del flujo (Cerebro del Bot)
+// Manejar clic
 function handleOptionClick(value, nextStep) {
-  chatControls.innerHTML = ''; // Limpiar botones temporalmente
+  chatControls.innerHTML = ''; 
   addUserMessage(value);
   
   showTypingIndicator(() => {
@@ -195,75 +220,146 @@ function handleOptionClick(value, nextStep) {
   });
 }
 
-// Lógica de Negocio / Ventas
+// --- CEREBRO DE VENTAS (Optimizado) ---
 function processStep(value, step) {
   switch(step) {
-    case 1: // Servicio seleccionado
+    case 1: // Servicio seleccionado -> PRESENTACIÓN DE PRODUCTO
       userData.service = value;
-      addBotMessage(`¡Perfecto! ${value} es una de nuestras especialidades.`);
+      const info = salesKnowledge[value] || { benefit: "Soluciones a medida.", tip: "" };
+
+      // 3. PRESENTAR PRODUCTO (Beneficio + Prueba Social/Tip)
+      addBotMessage(`¡Gran elección! ✅ Un <strong>${value}</strong> es clave para crecer.`);
       setTimeout(() => {
-        addBotMessage("Para prepararte la mejor propuesta, ¿en qué estado se encuentra tu proyecto?");
-        // Nuevas opciones para calificar el lead mejor que el precio
-        showOptions([
-          { label: "💡 Solo tengo la idea", value: "Solo idea (Necesita diseño)" },
-          { label: "🎨 Tengo el diseño listo", value: "Tengo diseño" },
-          { label: "♻️ Quiero mejorar una web existente", value: "Rediseño / Mejora" },
-          { label: "🚀 Es urgente, empiezo ya", value: "Urgente" }
-        ], 2);
+        addBotMessage(`📝 <strong>Beneficio clave:</strong> ${info.benefit}`);
+        setTimeout(() => {
+          addBotMessage("Para armarte una propuesta a tu medida, ¿en qué etapa estás?");
+          
+          // 4. MANEJO DE OBJECIONES (Opciones enfocadas en solución)
+          showOptions([
+            { label: "💡 Tengo solo la idea (Desde cero)", value: "Idea Inicial" },
+            { label: "🎨 Tengo diseño/avances (Necesito pulirlo)", value: "Proyecto en curso" },
+            { label: "🚀 Lo necesito urgente (Prioridad)", value: "Urgente / Inmediato" },
+            { label: "💰 Busco precios (Cotización)", value: "Comparando precios" }
+          ], 2);
+        }, 800);
       }, 800);
       break;
 
-    case 2: // Estado del proyecto seleccionado
+    case 2: // Estado seleccionado -> URGENCIA Y CIERRE
       userData.stage = value;
       
-      // Respuesta personalizada según la etapa para agregar valor
-      let responseText = "Entendido.";
-      if(value.includes("idea")) {
-        responseText = "¡Genial! Nos encanta trabajar desde cero para crear algo único.";
-      } else if (value.includes("diseño")) {
-        responseText = "Perfecto, eso acelerará el desarrollo considerablemente.";
-      } else if (value.includes("Rediseño")) {
-        responseText = "Podemos darle una vida nueva a tu marca y funcionalidad.";
+      // Lógica de Respuesta Personalizada (Objeciones)
+      let responseSales = "";
+      if(value.includes("Idea")) {
+        responseSales = "¡Perfecto! Nosotros te ayudamos desde la conceptualización hasta el lanzamiento. 💡";
+      } else if (value.includes("Proyecto")) {
+        responseSales = "Excelente. Si ya tienes avances, podemos optimizar costos y tiempos. ⚡";
       } else if (value.includes("Urgente")) {
-        responseText = "¡Entendido! Priorizaremos tu caso de inmediato.";
+        responseSales = "🚨 <strong>¡Entendido!</strong> Tenemos una vía rápida para proyectos urgentes. Te priorizaremos.";
+      } else if (value.includes("Comparando")) {
+        // Objeción de Precio: Valor antes que precio
+        responseSales = "Entendido. Nuestros precios son competitivos, pero lo mejor es la <strong>garantía de soporte</strong>. Verás que vale la pena. 😉";
       }
 
-      addBotMessage(responseText);
+      addBotMessage(responseSales);
+      
+      // 5. URGENCIA Y ESCACEZ
       setTimeout(() => {
-        addBotMessage("Por último, ¿cuál es tu nombre para poder atenderte?");
-        showTextInput("Escribe tu nombre aquí...", 3);
+        addBotMessage("⚡ <strong>Importante:</strong> Solo tenemos <u>3 cupos disponibles</u> para iniciar este mes con el 10% de descuento.");
+        
+        setTimeout(() => {
+          // Transición al cierre
+          addBotMessage("Para enviarte el presupuesto personalizado y reservar tu cupo, ¿cuál es tu nombre?");
+          showTextInput("Escribe tu nombre completo...", 3);
+        }, 1000);
       }, 800);
       break;
 
-    case 3: // Nombre ingresado -> Cierre
+    case 3: // Nombre ingresado -> CIERRE
       userData.name = value;
-      addBotMessage(`Gracias ${value}, te estamos contactando...`);
+      
+      // 6. CIERRE DE VENTA (Llamada a la acción clara)
+      addBotMessage(`Un gusto, <strong>${value}</strong>. 👋`);
       setTimeout(() => {
-        // Mensaje de cierre más profesional
-        addBotMessage("🚀 He generado tu solicitud de atención prioritaria.");
+        addBotMessage("Estoy generando tu cotización prioritaria en este momento...");
+        
         setTimeout(() => {
-          redirectToWhatsApp();
+          addBotMessage("👇 <strong>Haz clic abajo para ver el resumen y empezar</strong>:");
+          
+          // Botón Final (Mejor que un simple redirect automático)
+          showFinalButton();
         }, 1000);
       }, 500);
       break;
   }
 }
 
-// Redirigir a WhatsApp con todo el resumen
+// Botón Final de WhatsApp (Estilo mejorado en JS, pero puedes usar CSS)
+function showFinalButton() {
+  chatControls.innerHTML = '';
+  const btn = document.createElement('a');
+  btn.className = 'option-btn whatsapp-btn'; // Asegúrate de tener estilos para esto o usa 'option-btn'
+  btn.style.backgroundColor = '#25D366';
+  btn.style.color = 'white';
+  btn.style.textDecoration = 'none';
+  btn.style.textAlign = 'center';
+  btn.style.fontWeight = 'bold';
+  btn.innerText = '📱 Ver Cotización por WhatsApp';
+  
+  btn.onclick = redirectToWhatsApp; // Llama a la función de redirección
+  chatControls.appendChild(btn);
+}
+
+// 7. POSTVENTA (Redirección con datos estructurados)
 function redirectToWhatsApp() {
-  // Construimos un mensaje más detallado y profesional
-  const text = `Hola NetoWebs, mi nombre es *${userData.name}*.%0A%0A` +
-                `Estoy interesado en un servicio de: *${userData.service}*.%0A` +
-                `Estado actual del proyecto: *${userData.stage}*.%0A%0A` +
-                `Me gustaría recibir una asesoría lo antes posible.`;
+  // Mensaje diseñado para que el vendedor real responda rápido
+  const urgencyTag = userData.stage.includes("Urgente") ? "🚨 URGENTE:" : "📋 Nuevo Lead:";
+  
+  const text = `${urgencyTag} Hola NetoWebs, soy *${userData.name}*.%0A` +
+                `Vi la promoción del mes y me interesa: *${userData.service}*.%0A` +
+                `Mi situación es: *${userData.stage}*.%0A` +
+                `Quiero saber el precio y disponibilidad.`;
   
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
   
-  // Abrir ventana y cerrar chat
   window.open(url, '_blank');
-  toggleChat();
+  
+  // Mensaje Post-venta dentro del chat
+  chatControls.innerHTML = '<p style="text-align:center; font-size:12px; color:#888;">Redirigiendo a WhatsApp...</p>';
+  setTimeout(() => {
+      if(chatWindow.classList.contains('active')) {
+          addBotMessage("¡Listo! Te esperamos en WhatsApp para enviarte los detalles. 🚀");
+      }
+  }, 500);
 }
 
 function scrollToBottom() {
   chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+// Mostrar input de texto (Optimizado para Móvil)
+function showTextInput(placeholder, nextStep) {
+  chatControls.innerHTML = '';
+  const input = document.createElement('input');
+  input.className = 'text-input';
+  input.placeholder = placeholder;
+  input.setAttribute('autocomplete', 'off'); // Evita autocompletados molestos
+  
+  // Importante para móviles: Tamaño de fuente 16px previene zoom en iOS
+  input.style.fontSize = '16px'; 
+  
+  input.onkeypress = (e) => {
+    if (e.key === 'Enter' && input.value.trim() !== '') {
+      handleOptionClick(input.value.trim(), nextStep);
+    }
+  };
+  
+  chatControls.appendChild(input);
+  
+  // Pequeño truco: Enfocar con delay para que el teclado móvil no salte de golpe y desordene
+  setTimeout(() => {
+    input.focus();
+    // En móviles, al enfocar, hacemos scroll suave al final
+    scrollToBottom(); 
+  }, 300);
 }
